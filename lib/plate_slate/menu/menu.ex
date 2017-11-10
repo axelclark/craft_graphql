@@ -14,7 +14,7 @@ defmodule PlateSlate.Menu do
   import Ecto.Query, warn: false
   alias PlateSlate.Repo
 
-  alias PlateSlate.Menu.Category
+  alias PlateSlate.{Menu.Category, Menu.Item}
 
   @doc """
   Returns the list of categories.
@@ -109,8 +109,6 @@ defmodule PlateSlate.Menu do
   def change_category(%Category{} = category) do
     Category.changeset(category, %{})
   end
-
-  alias PlateSlate.Menu.Item
 
   @doc """
   Returns the list of items.
