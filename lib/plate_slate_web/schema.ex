@@ -25,6 +25,21 @@ defmodule PlateSlateWeb.Schema do
     value :desc
   end
 
+  scalar :date do
+      parse fn input ->
+        with %Absinthe.Blueprint.Input.String{value: value} <- input,
+        {:ok, date} <- Date.from_iso8601(value) do
+          {:ok, date}
+        else
+          _ -> :error
+        end
+      end
+
+      serialize fn date ->
+        Date.to_iso8601(date)
+      end
+  end
+
   @desc "Filtering options for the menu item list"
   input_object :menu_item_filter do
 
@@ -43,11 +58,19 @@ defmodule PlateSlateWeb.Schema do
     @desc "Priced below a value"
     field :priced_below, :float
 
+    @desc "Added to the menu before this date"
+    field :added_before, :date
+
+    @desc "Added to the menu after this date"
+    field :added_after, :date
+
   end
 
   object :menu_item do
     field :id, :id
     field :name, :string
     field :description, :string
+    field :price, :float
+    field :added_on, :date
   end
 end
